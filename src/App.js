@@ -644,10 +644,236 @@ function ContactTab() {
   );
 }
 
+// ── UMA CHATBOT ─────────────────────────────────────────────
+
+const UMA_KB = [
+  { triggers:["hi","hello","hey","namaste","start"],
+    bot:"Hello! I am **Uma**, your personal guide at UnmutedWorld 🌸\n\nI can help you with courses, eBooks, membership, booking a Discovery Call, or reaching Anita directly.\n\nWhat brings you here today?",
+    chips:["I am a Professional","I am a Midlife Woman","About Membership","Browse eBooks","Book a Discovery Call"] },
+  { triggers:["professional","speak","speaking","english","meetings","freeze","non-native","communication","impromptu"],
+    bot:"You are in the right place! 🎙️\n\n**Programmes for non-native professionals:**\n• Speak On The Spot — 12 weeks\n• Speak With Confidence — 6 weeks\n• Fast Track Intensive — 4 weeks\n\n📚 Start with an eBook — the perfect first step!\n\nWould you like to book a free Discovery Call with Anita?",
+    chips:["Browse eBooks","All Courses","Book a Discovery Call","About Membership"] },
+  { triggers:["menopause","perimenopause","midlife","women","woman","hormones","brain fog","anxiety","cbt","mood","identity","sleep"],
+    bot:"You are absolutely not alone, and you are in the right place 🌺\n\n**CBT coaching for midlife women:**\n• Anxiety and mood regulation\n• Brain fog and sleep strategies\n• Rebuilding identity and confidence\n\n**Programmes:**\n• Reclaim Your Voice — 10 weeks\n• First Steps — 6 weeks\n• Women's Circle — Group\n\nStart with our Menopause eBook series!",
+    chips:["Browse eBooks","All Courses","Book a Discovery Call","About Membership"] },
+  { triggers:["ebook","ebooks","digital","store","download","guide","pdf","resource"],
+    bot:"📚 Our eBooks are the most enriching first step!\n\n**For Professionals:** PREP Formula Series, On-The-Spot Guides\n**For Women:** CBT Menopause Series, Emotional Regulation Guides\n\nInstant download — accessibly priced!",
+    chips:["Browse Digital Store","All Courses","Book a Discovery Call"] },
+  { triggers:["course","courses","programme","programmes","enrol","all courses"],
+    bot:"🎓 Our full course catalogue:\n\n**For Professionals:**\n• Speak On The Spot — 12 wks\n• Speak With Confidence — 6 wks\n• Fast Track Intensive — 4 wks\n\n**For Women:**\n• Reclaim Your Voice — 10 wks\n• First Steps — 6 wks\n• Women's Circle — Group\n\nNot sure which fits? Book a free Discovery Call!",
+    chips:["Book a Discovery Call","Browse eBooks","About Membership"] },
+  { triggers:["membership","member","silver","gold","diamond","community","ongoing"],
+    bot:"🌺 **UnmutedWorld Membership** — your ongoing home for growth!\n\n🥈 **Silver — Voice Seeker:** ₹999/month\nCommunity + 1 monthly group Q&A\n\n🥇 **Gold — Voice Builder:** ₹1,999/month\n2 coaching sessions + masterclass + 15% off eBooks\n\n💎 **Diamond — Voice Leader:** ₹3,499/month\nQuarterly 1:1 with Anita + VIP WhatsApp + retreat invite\n\nQuestions? WhatsApp Anita anytime!",
+    chips:["Book a Discovery Call","Browse eBooks","Contact Anita"] },
+  { triggers:["discovery","free call","book a call","book call","schedule","appointment","consultation"],
+    bot:"🌟 A Discovery Call is the warmest place to start!\n\n✅ 30 minutes — completely free\n✅ No pressure, no obligation\n✅ Anita listens to exactly where you are\n✅ She will honestly tell you what fits\n\n📅 Available 8 AM – 10 PM IST",
+    chips:["WhatsApp to Book","Contact Anita","About Membership"] },
+  { triggers:["contact","reach","email","phone","whatsapp","get in touch"],
+    bot:"Reach Anita in whatever way feels most comfortable! 💛\n\n📲 WhatsApp: +91 78999 60145\n📧 hello@unmutedworld.com\n📅 Quick 15-min connect on Topmate\n\nShe responds within 24 hours, warmly and personally 🌸",
+    chips:["WhatsApp to Book","Book on Topmate","Browse eBooks"] },
+  { triggers:["price","pricing","cost","fee","how much","rupee","inr","payment"],
+    bot:"💰 Pricing overview:\n\n**eBooks:** Browse the Digital Store\n\n**Membership:**\nSilver ₹999/mo | Gold ₹1,999/mo | Diamond ₹3,499/mo\n\n**1:1 Coaching:**\n• Speak With Confidence — ₹14,999\n• Speak On The Spot — ₹29,999\n• Fast Track — ₹19,999\n• First Steps — ₹14,999\n• Reclaim Your Voice — ₹29,999\n• Women's Circle — ₹12,999/person\n\nPayment plans available — discuss on your free call!",
+    chips:["Book a Discovery Call","Browse eBooks","About Membership"] },
+  { triggers:["refund","cancel","money back","return"],
+    bot:"📋 UnmutedWorld Refund Policy:\n\n📚 eBooks: Non-refundable once downloaded\n🎓 Courses & Membership: 7-day refund if under 20% accessed\n🌿 1:1 Coaching: Full refund before first session\n\nAnita always tries to resolve things warmly first!\n📧 hello@unmutedworld.com",
+    chips:["Contact Anita","Browse eBooks","Book a Discovery Call"] },
+  { triggers:["not receiving","no email","confirmation","no confirmation"],
+    bot:"📬 No confirmation email after purchase?\n\n1️⃣ Check your **Spam / Promotions** folder\n2️⃣ Wait 5–10 minutes — sometimes delayed\n3️⃣ Check the email you used for payment\n\nStill nothing? Contact Anita directly!",
+    chips:["WhatsApp to Book","Contact Anita"] },
+  { triggers:["cannot access","can't access","access problem","login","log in"],
+    bot:"🔑 Can't access your course?\n\n1️⃣ Go to anitasenmajumdar0255.graphy.com\n2️⃣ Click **Login** at the top right\n3️⃣ Use the **same email** you paid with\n4️⃣ Click **Forgot Password** if needed\n\nStill stuck? WhatsApp Anita: +91 78999 60145",
+    chips:["WhatsApp to Book","Contact Anita"] },
+  { triggers:["zoom","session link","meeting link"],
+    bot:"💻 Zoom session link?\n\nAnita sends the Zoom link **24 hours before** your session via email and WhatsApp.\n\nNot received it? Message her directly:\n📲 +91 78999 60145",
+    chips:["WhatsApp to Book","Contact Anita"] },
+  { triggers:["reschedule","cancel session","change session","postpone"],
+    bot:"📅 Need to reschedule?\n\nNo problem at all! Please give Anita **at least 24 hours notice**.\n\nWhatsApp her directly:\n📲 +91 78999 60145",
+    chips:["WhatsApp to Book","Contact Anita"] },
+  { triggers:["thank","thanks","great","awesome","wonderful","amazing"],
+    bot:"You are so welcome! 🌸 Your voice matters and you deserve all the support.\n\nIs there anything else I can help you with?",
+    chips:["Browse eBooks","About Membership","Book a Discovery Call"] },
+];
+
+function UmaChat({ onClose }) {
+  const [msgs, setMsgs] = useState([]);
+  const [input, setInput] = useState("");
+  const [chips, setChips] = useState(["I am a Professional","I am a Midlife Woman","Browse eBooks","Book a Discovery Call","Help & Support"]);
+  const [started, setStarted] = useState(false);
+  const msgRef = useState(null);
+  const bottomRef = useState(null);
+
+  const addMsg = (text, role, newChips) => {
+    setMsgs(prev => [...prev, { text, role, id: Date.now() + Math.random() }]);
+    if (newChips !== undefined) setChips(newChips);
+    setTimeout(() => {
+      const el = document.getElementById("uma-msgs-app");
+      if (el) el.scrollTop = el.scrollHeight;
+    }, 50);
+  };
+
+  const processInput = (text) => {
+    const lower = text.toLowerCase();
+
+    // Special chip actions
+    if (lower.includes("whatsapp to book")) {
+      window.open(WA, "_blank");
+      addMsg("Opening WhatsApp to connect with Anita! 📲", "bot", ["Browse eBooks","All Courses","About Membership"]);
+      return;
+    }
+    if (lower.includes("browse digital store")) {
+      window.open(STORE, "_blank");
+      addMsg("Opening the Digital Store! 📚", "bot", ["All Courses","Book a Discovery Call"]);
+      return;
+    }
+    if (lower.includes("book on topmate")) {
+      window.open(TOPMATE, "_blank");
+      addMsg("Opening Topmate for a quick 15-min connect! 📅", "bot", ["Browse eBooks","About Membership"]);
+      return;
+    }
+
+    // Find matching KB entry
+    const match = UMA_KB.find(k => k.triggers.some(t => lower.includes(t)));
+
+    if (match) {
+      setTimeout(() => {
+        addMsg(match.bot, "bot", match.chips);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        addMsg("Great question! Let me connect you directly with Anita 🌸\n\n📲 WhatsApp: +91 78999 60145\n📧 hello@unmutedworld.com\n\nOr browse the app for courses and eBooks!", "bot",
+          ["WhatsApp to Book","Browse eBooks","All Courses","About Membership"]);
+      }, 500);
+    }
+  };
+
+  const handleSend = (text) => {
+    const t = text || input.trim();
+    if (!t) return;
+    setInput("");
+    addMsg(t, "user");
+    setChips([]);
+    processInput(t);
+  };
+
+  // Welcome message on open
+  useState(() => {
+    if (!started) {
+      setStarted(true);
+      setTimeout(() => {
+        addMsg("Hello! I am **Uma** 🌸\n\nYour personal guide at UnmutedWorld. I am here to help you find the right course, book a call with Anita, or answer any questions.\n\nWhat brings you here today?", "bot",
+          ["I am a Professional","I am a Midlife Woman","Browse eBooks","Book a Discovery Call","Help & Support"]);
+      }, 300);
+    }
+  }, []);
+
+  const renderText = (text) => {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br/>');
+  };
+
+  return (
+    <div style={{
+      position:"fixed", bottom:80, right:16, zIndex:999,
+      width: Math.min(360, window.innerWidth - 32),
+      height:480, display:"flex", flexDirection:"column",
+      background:"#fff", borderRadius:"1.2rem",
+      boxShadow:"0 8px 40px rgba(13,27,62,0.22)",
+      border:"1px solid rgba(196,96,122,0.2)", overflow:"hidden",
+      fontFamily:"'DM Sans',sans-serif",
+    }}>
+      {/* Header */}
+      <div style={{ background:`linear-gradient(135deg,${C.navy},#1a0a2e)`,
+        padding:"0.85rem 1rem", display:"flex", alignItems:"center", gap:"0.7rem" }}>
+        <div style={{ width:38, height:38, borderRadius:"50%",
+          background:"linear-gradient(135deg,#c4607a,#e8b4c0)",
+          display:"flex", alignItems:"center", justifyContent:"center",
+          fontSize:"1.2rem", flexShrink:0 }}>🌸</div>
+        <div style={{ flex:1 }}>
+          <div style={{ color:"#fff", fontWeight:700, fontSize:"0.9rem" }}>Uma</div>
+          <div style={{ color:"rgba(255,255,255,0.5)", fontSize:"0.65rem" }}>
+            UnmutedWorld Guide · Always here 🌿
+          </div>
+        </div>
+        <button onClick={onClose} style={{ background:"none", border:"none",
+          color:"rgba(255,255,255,0.5)", fontSize:"1.2rem", cursor:"pointer",
+          padding:"0.2rem 0.4rem", lineHeight:1 }}>✕</button>
+      </div>
+
+      {/* Messages */}
+      <div id="uma-msgs-app" style={{ flex:1, overflowY:"auto", padding:"0.85rem",
+        display:"flex", flexDirection:"column", gap:"0.6rem", scrollbarWidth:"none" }}>
+        {msgs.map(m => (
+          <div key={m.id} style={{
+            display:"flex", flexDirection: m.role==="user" ? "row-reverse" : "row",
+            alignItems:"flex-end", gap:"0.4rem",
+          }}>
+            {m.role === "bot" && (
+              <div style={{ width:28, height:28, borderRadius:"50%", flexShrink:0,
+                background:"linear-gradient(135deg,#c4607a,#e8b4c0)",
+                display:"flex", alignItems:"center", justifyContent:"center",
+                fontSize:"0.8rem" }}>🌸</div>
+            )}
+            <div style={{
+              maxWidth:"82%",
+              background: m.role==="user"
+                ? `linear-gradient(135deg,${C.rose},#d4879a)`
+                : "#f8f4f9",
+              color: m.role==="user" ? "#fff" : C.navy,
+              padding:"0.6rem 0.85rem", borderRadius:"1rem",
+              borderBottomRightRadius: m.role==="user" ? "0.2rem" : "1rem",
+              borderBottomLeftRadius: m.role==="bot" ? "0.2rem" : "1rem",
+              fontSize:"0.78rem", lineHeight:1.55,
+            }} dangerouslySetInnerHTML={{ __html: renderText(m.text) }} />
+          </div>
+        ))}
+      </div>
+
+      {/* Chips */}
+      {chips.length > 0 && (
+        <div style={{ padding:"0.4rem 0.7rem", display:"flex", flexWrap:"wrap",
+          gap:"0.35rem", borderTop:"1px solid rgba(196,96,122,0.1)" }}>
+          {chips.map(c => (
+            <button key={c} onClick={() => handleSend(c)} style={{
+              background:"rgba(196,96,122,0.1)", color:C.rose,
+              border:`1px solid rgba(196,96,122,0.25)`, borderRadius:"2rem",
+              padding:"0.28rem 0.7rem", fontSize:"0.68rem", fontWeight:600,
+              cursor:"pointer", fontFamily:"'DM Sans',sans-serif",
+            }}>{c}</button>
+          ))}
+        </div>
+      )}
+
+      {/* Input */}
+      <div style={{ padding:"0.6rem 0.7rem", borderTop:"1px solid rgba(196,96,122,0.1)",
+        display:"flex", gap:"0.4rem" }}>
+        <input
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key==="Enter" && handleSend()}
+          placeholder="Type a message..."
+          style={{ flex:1, border:"1px solid rgba(196,96,122,0.25)",
+            borderRadius:"2rem", padding:"0.5rem 0.85rem",
+            fontSize:"0.78rem", outline:"none", fontFamily:"'DM Sans',sans-serif",
+            color:C.navy, background:"#fdf8f5" }}
+        />
+        <button onClick={() => handleSend()} style={{
+          background:`linear-gradient(135deg,${C.rose},#d4879a)`,
+          color:"#fff", border:"none", borderRadius:"50%",
+          width:36, height:36, fontSize:"1rem", cursor:"pointer",
+          display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0,
+        }}>→</button>
+      </div>
+    </div>
+  );
+}
+
 // ── ROOT ────────────────────────────────────────────────────
 
 export default function App() {
   const [tab, setTab] = useState("home");
+  const [umaOpen, setUmaOpen] = useState(false);
+
   const TAB_MAP = {
     home: <HomeTab setTab={setTab} />,
     courses: <CoursesTab />,
@@ -656,6 +882,7 @@ export default function App() {
     coaches: <CoachesTab />,
     contact: <ContactTab />,
   };
+
   return (
     <div style={{ fontFamily:"'DM Sans',sans-serif", background:C.offWhite,
       minHeight:"100vh", color:C.navy, overflowX:"hidden" }}>
@@ -663,6 +890,40 @@ export default function App() {
       <div style={{ maxWidth:480, margin:"0 auto" }}>
         {TAB_MAP[tab]}
       </div>
+
+      {/* Uma Chat Window */}
+      {umaOpen && <UmaChat onClose={() => setUmaOpen(false)} />}
+
+      {/* Uma Launcher Button */}
+      <button onClick={() => setUmaOpen(!umaOpen)} style={{
+        position:"fixed", bottom:80, right:16, zIndex:1000,
+        width:56, height:56, borderRadius:"50%",
+        background:`linear-gradient(135deg,${C.rose},#d4879a)`,
+        border:"3px solid #fff", cursor:"pointer",
+        boxShadow:"0 4px 20px rgba(196,96,122,0.5)",
+        display:"flex", alignItems:"center", justifyContent:"center",
+        fontSize:"1.5rem", transition:"all 0.22s",
+      }}>
+        {umaOpen ? "✕" : "🌸"}
+      </button>
+
+      {/* Uma greeting bubble */}
+      {!umaOpen && (
+        <div onClick={() => setUmaOpen(true)} style={{
+          position:"fixed", bottom:148, right:16, zIndex:999,
+          background:"#fff", borderRadius:"1rem 1rem 0.2rem 1rem",
+          padding:"0.55rem 0.85rem", cursor:"pointer",
+          boxShadow:"0 4px 16px rgba(13,27,62,0.15)",
+          border:"1px solid rgba(196,96,122,0.2)",
+          fontSize:"0.72rem", color:C.navy, maxWidth:180,
+          fontFamily:"'DM Sans',sans-serif",
+          animation:"uma-bounce 2s ease-in-out infinite",
+        }}>
+          <style>{`@keyframes uma-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}`}</style>
+          <strong style={{ color:C.rose }}>Hi! I'm Uma 🌸</strong><br/>
+          Ask me anything about UnmutedWorld!
+        </div>
+      )}
 
       {/* Sticky bottom bar */}
       <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:200,
